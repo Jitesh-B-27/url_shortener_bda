@@ -3,8 +3,8 @@ Description=Gunicorn service for the URL Shortener
 After=network.target
 
 [Service]
-User=ubuntu
-Group=www-data
+User=ec2-user
+Group=ec2-user
 WorkingDirectory=/opt/url_shortener_bda
 EnvironmentFile=/etc/url-shortener.env
 ExecStart=/opt/url_shortener_bda/.venv/bin/gunicorn --workers 2 --bind 127.0.0.1:8000 --access-logfile - --error-logfile - run:app

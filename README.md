@@ -25,7 +25,7 @@ The repository contains no AWS keys or database credentials. Environment variabl
 - Python 3.10 or newer
 - MySQL 8 locally or an accessible RDS MySQL instance
 - An S3 bucket and AWS credentials for local export testing
-- On EC2: Ubuntu, Nginx, and an attached IAM role
+- On EC2: Amazon Linux 2023, Nginx, and an attached IAM role
 
 ## Environment variables
 
@@ -149,13 +149,14 @@ RDS inbound:
 
 ## EC2 deployment
 
-These commands assume Ubuntu. Replace the repository URL and adjust the service username/path if the AMI differs.
+These commands match the tested Amazon Linux 2023 deployment. Replace the repository URL with your own.
 
 ~~~bash
-sudo apt update
-sudo apt install -y python3-venv python3-pip nginx git
-sudo git clone https://github.com/<username>/<repository>.git /opt/url_shortener_bda
-sudo chown -R ubuntu:www-data /opt/url_shortener_bda
+sudo dnf update -y
+sudo dnf install -y python3 python3-pip nginx git mariadb105
+sudo mkdir -p /opt/url_shortener_bda
+sudo chown ec2-user:ec2-user /opt/url_shortener_bda
+git clone https://github.com/<username>/<repository>.git /opt/url_shortener_bda
 cd /opt/url_shortener_bda
 python3 -m venv .venv
 source .venv/bin/activate
@@ -190,16 +191,16 @@ Stop the test process and install the service and reverse proxy:
 
 ~~~bash
 sudo cp deployment/url-shortener.service /etc/systemd/system/url-shortener.service
-sudo cp deployment/nginx.conf /etc/nginx/sites-available/url-shortener
-sudo ln -s /etc/nginx/sites-available/url-shortener /etc/nginx/sites-enabled/url-shortener
-sudo rm -f /etc/nginx/sites-enabled/default
+sudo cp deployment/nginx.conf /etc/nginx/conf.d/url-shortener.conf
+# Edit server_name in /etc/nginx/conf.d/url-shortener.conf to the public IP or domain.
 sudo nginx -t
 sudo systemctl daemon-reload
 sudo systemctl enable --now url-shortener
+sudo systemctl enable --now nginx
 sudo systemctl restart nginx
 ~~~
 
-If the EC2 user is not **ubuntu**, edit User, Group, ownership, and paths in the service template first.
+The supplied systemd unit uses the Amazon Linux account **ec2-user**. If another AMI is used, edit User and Group before installing the unit.
 
 ## Verification
 
