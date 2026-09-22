@@ -1,0 +1,69 @@
+:root {
+  color-scheme: light;
+  --ink: #172033;
+  --muted: #667085;
+  --line: #dde3ec;
+  --brand: #3157d5;
+  --brand-dark: #2442aa;
+  --surface: #ffffff;
+  --background: #f3f6fb;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--background);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.container { width: min(1120px, 92%); margin: 3rem auto; }
+header { margin-bottom: 2rem; }
+h1 { margin: .2rem 0; font-size: clamp(2rem, 6vw, 3.5rem); }
+h2 { margin: 0 0 1rem; font-size: 1.2rem; }
+p { color: var(--muted); margin: .35rem 0; }
+.eyebrow { color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.panel {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgb(23 32 51 / 5%);
+}
+label { display: block; font-weight: 650; margin-bottom: .5rem; }
+.form-row, .section-heading { display: flex; gap: .75rem; align-items: center; }
+.section-heading { justify-content: space-between; margin-bottom: 1rem; }
+input {
+  min-width: 0;
+  flex: 1;
+  padding: .8rem .9rem;
+  border: 1px solid #b9c2d0;
+  border-radius: 7px;
+  font: inherit;
+}
+button {
+  border: 0;
+  border-radius: 7px;
+  padding: .82rem 1.1rem;
+  color: white;
+  background: var(--brand);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { background: var(--brand-dark); }
+button.secondary { color: var(--brand); background: #edf1ff; }
+.message { margin: 1rem 0; padding: .9rem 1rem; border-radius: 7px; }
+.message.success { color: #17633a; background: #e8f7ef; }
+.message.error { color: #922b34; background: #fdecef; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+th, td { padding: .8rem; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { color: var(--muted); font-size: .78rem; text-transform: uppercase; }
+a { color: var(--brand); }
+.destination { max-width: 340px; overflow-wrap: anywhere; }
+.empty { text-align: center; color: var(--muted); padding: 2rem; }
+@media (max-width: 650px) {
+  .container { margin: 1.5rem auto; }
+  .form-row, .section-heading { align-items: stretch; flex-direction: column; }
+  button { width: 100%; }
+}
